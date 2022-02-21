@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+    <title>22 Years of Gaming</title>
+	<script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+	<!-- <script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/2542/in-view.min.js"></script> -->
+	<script type="text/javascript" src="./in-view.min.js"></script>
+	<!-- <script type="text/javascript" src="https://rawgit.com/protonet/jquery.inview/master/jquery.inview.min.js"></script> -->
+	<!-- <script src="https://rawgit.com/protonet/jquery.inview/master/jquery.inview.min.js"></script> -->
+	<script type="text/javascript">
+
+	let json = '{' +
+		'"2021":"#3498db", "2020":"#27ae60",' +
+		'"2019":"#e74c3c", "2018":"#f39c12",' +
+		'"2017":"#f1c40f", "2016":"#8e44ad",' +
+		'"2015":"#16a085", "2014":"#d35400",' +
+		'"2013":"#2ecc71", "2012":"#2980b9",' +
+		'"2011":"#f1c40f", "2010":"#1abc9c",' +
+		'"2009":"#27ae60", "2008":"#e74c3c",' +
+		'"2007":"#2c3e50", "2006":"#c0392b",' +
+		'"2005":"#f39c12", "2004":"#8e44ad",' +
+		'"2003":"#9b59b6", "2002":"#3498db",' +
+		'"2001":"#34495e", "2000":"#8e44ad"' +
+	'}';
+	const yearcolors = JSON.parse(json);
+
+	$(document).ready(function () {
+		var root = $("#content");
+	 	fetch("data.json")
+	 	.then(response => response.json())
+	 	//.then(json => console.log(json));
+	 	.then(json => {
+			 populateBody(root, json);
+		 	/* var scroll_pos = 0;
+		 	$("#content").scroll(function() {
+				scroll_pos = $(this).scrollTop();
+		 	}); */
+ 
+			var $target = $("body");
+ 			inView('.year').on('enter', function(el){
+		  		var color = $(el).attr('data-background-color');
+		   		$target.css('background-color', color );
+	 		}); 
+		});
+	})
+
+	/* var $target = $('#content');
+		inView(".year").on('enter', function(el){
+	  		var color = $(el).attr('data-background-color');
+  			$target.css('background-color', color );
+		});  */
+
+	function appendGame(container, year, game) {
+		var $divGame = $("<div></div>");
+		var $divGameCover = $("<div></div>");
+		var $divGameName = $("<div></div>");
+		var $divGameIcons = $("<div></div>");
+		$divGame.addClass("game");
+		$divGame.append($divGameIcons);
+		$divGame.append($divGameCover);
+		$divGame.append($divGameName);
+		$divGameCover.addClass("gamecover");
+		$divGameName.addClass("gamename");
+		$divGameIcons.addClass("gameicons");
+		$divGameName.append($("<p>" + game.name + "</p>"));
+		var imgFilePath = "coverImages\\" + year + "\\" + game.imagepath;
+
+		let img = new Image();
+		img.src = imgFilePath;
+		$divGameCover.append(img);
+
+		if (game.console == "Mobile") {
+			$divGame.addClass("mobile");
+			console.log("MOBILE ALARM")
+		}
+
+		if (game.backlog === "true") {
+			var $backlogIcon = $("<div></div>");
+			let backlogImg = new Image();
+			backlogImg.src = "/img/clipboard.png";
+			$backlogIcon.addClass("backlogicon");
+			$backlogIcon.append(backlogImg)
+			$divGameIcons.append($backlogIcon);
+		}
+
+		if (game.finished === "true") {
+			var $finishedIcon = $("<div></div>");
+			let finishedImg = new Image();
+			finishedImg.src = "/img/checkmark.png";
+			$finishedIcon.addClass("finishedicon");
+			$finishedIcon.append(finishedImg)
+			$divGameIcons.append($finishedIcon);
+		}
+
+		if (game.completed === "true") {
+			var $completedIcon = $("<div></div>");
+			let completedImg = new Image();
+			completedImg.src = "/img/trophy.png";
+			$completedIcon.addClass("completedIcon");
+			$completedIcon.append(completedImg)
+			$divGameIcons.append($completedIcon);
+		}
+
+		$divGame.hover(function() {
+			$divGameIcons.toggle('drop', {direction: 'right'}, 150);
+		})
+
+		//if (game.unplayed === "false") {
+			container.append($divGame);
+		//}
+
+	}
+	
+	function showMobile() {
+		if ($('#showMobile').is(':checked')) {
+			$('.mobile').hide(500);
+			$('#showMobile').prop('checked',false);
+		} else {
+			$('.mobile').show(500);
+			$('#showMobile').prop('checked',true);
+		}
+	}
+
+	function populateBody(container, jsonData) {
+		jsonData.forEach(year => {
+        	var $divYear  = $("<div></div>");
+			$divYear.addClass("year");
+
+			$divYear.attr('data-background-color',yearcolors[year.year])
+			$divYear.data('background', yearcolors[year.year]);
+			$divYear.append($("<p>" + year.year + "</p>"));
+			var $divGameList = $("<div></div>");
+			$divGameList.addClass("gamesthisyear");
+			year.gamesthisyear.forEach(game => {
+				appendGame($divGameList, year.year, game);
+			});
+			$divYear.append($divGameList)
+			container.append($divYear);
+		});
+	}
+
+
+	</script>
+  </head>
+  <body>
+  <div id="menu">
+	<p class="huge">Every Video Game </span> </p> <p>released in the last 22 Years<br><span class="tiny">...that I played</span> </p>
+	<!-- <h1>Atypical Backlog's Games released the last 22 Years</h1> -->
+	<div id="showMobileBtn" onclick="showMobile()"><input type="checkbox" id="showMobile" checked>Show Mobile Games</div>
+	</div>
+  <div id="content">
+  </div>
+  </body>
+</html>
