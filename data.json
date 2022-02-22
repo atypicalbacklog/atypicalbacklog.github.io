@@ -2897,8 +2897,8 @@
       },
       {
         "date": "2014-09-03T22:00:00.000Z",
-        "imagepath": "TheSIms4.jpg",
-        "name": "The SIms 4",
+        "imagepath": "TheSims4.jpg",
+        "name": "The Sims 4",
         "unplayed": "false",
         "backlog": "false",
         "finished": "false",
@@ -3094,8 +3094,8 @@
       },
       {
         "date": "2014-12-04T23:00:00.000Z",
-        "imagepath": "KingdomHeartsIIFInalMix.png",
-        "name": "Kingdom Hearts II FInal Mix",
+        "imagepath": "KingdomHeartsIIFinalMix.png",
+        "name": "Kingdom Hearts II Final Mix",
         "unplayed": "false",
         "backlog": "false",
         "finished": "true",
@@ -3380,8 +3380,8 @@
       },
       {
         "date": "2013-11-13T23:00:00.000Z",
-        "imagepath": "PandoraFIrstContact.jpg",
-        "name": "Pandora: FIrst Contact",
+        "imagepath": "PandoraFirstContact.jpg",
+        "name": "Pandora: First Contact",
         "unplayed": "false",
         "backlog": "true",
         "finished": "false",
